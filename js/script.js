@@ -641,23 +641,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         celebration.appendChild(button);
         
-        // Add confetti
+       // Enhanced confetti generation
         const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', 
-                       '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', 
-                       '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800'];
-        
-        for (let i = 0; i < 150; i++) {
+                   '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50',
+                   '#8BC34A', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+    
+    // Create 200 pieces for a richer effect
+        for (let i = 0; i < 200; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.animationDelay = Math.random() * 2 + 's';
-            confetti.style.width = Math.random() * 10 + 5 + 'px';
-            confetti.style.height = Math.random() * 10 + 5 + 'px';
-            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            
+            // Random properties
+            const size = Math.random() * 10 + 5;
+            const shape = Math.random() > 0.5 ? '50%' : '0';
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const left = Math.random() * 100;
+            const animationDuration = Math.random() * 3 + 2;
+            const delay = Math.random() * 5;
+            
+            // Apply styles
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${size}px`;
+            confetti.style.borderRadius = shape;
+            confetti.style.backgroundColor = color;
+            confetti.style.left = `${left}vw`;
+            confetti.style.animationDuration = `${animationDuration}s`;
+            confetti.style.animationDelay = `${delay}s`;
+            
+            // Add 3D rotation variations
+            const rotationX = Math.random() * 360;
+            const rotationY = Math.random() * 360;
+            confetti.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+            
             celebration.appendChild(confetti);
         }
-        
+    
         document.body.appendChild(celebration);
     }
     initPhone()

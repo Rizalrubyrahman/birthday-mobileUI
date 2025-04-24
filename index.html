@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv='cache-control' content='no-cache'> 
+<meta http-equiv='expires' content='0'> 
+<meta http-equiv='pragma' content='no-cache'>
+    <title>Happy Birthday</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+ 
+    <div class="container">
+        <div class="phone">
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="lock-screen" id="lockScreen">
+                        <div class="lock-time" id="lockTime">12:30</div>
+                        <div class="lock-date" id="lockDate">Monday, June 12</div>
+                        <div class="pin-pad">
+                            <div class="pin-display">
+                                <span class="pin-digit"></span>
+                                <span class="pin-digit"></span>
+                                <span class="pin-digit"></span>
+                                <span class="pin-digit"></span>
+                            </div>
+                            <div class="pin-buttons">
+                                <div class="pin-row">
+                                    <button class="pin-btn" data-digit="1">1</button>
+                                    <button class="pin-btn" data-digit="2">2</button>
+                                    <button class="pin-btn" data-digit="3">3</button>
+                                </div>
+                                <div class="pin-row">
+                                    <button class="pin-btn" data-digit="4">4</button>
+                                    <button class="pin-btn" data-digit="5">5</button>
+                                    <button class="pin-btn" data-digit="6">6</button>
+                                </div>
+                                <div class="pin-row">
+                                    <button class="pin-btn" data-digit="7">7</button>
+                                    <button class="pin-btn" data-digit="8">8</button>
+                                    <button class="pin-btn" data-digit="9">9</button>
+                                </div>
+                                <div class="pin-row">
+                                    <button class="pin-btn" id="pinBackspace"><i class="fas fa-arrow-left"></i></button>
+                                    <button class="pin-btn" data-digit="0">0</button>
+                                    <button class="pin-btn" id="pinEnter"><i style="transform:rotate(90deg) ;" class="fas fa-arrow-turn-down"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lock-message" id="lockMessage"></div>
+                    </div>
+                    <div class="status-bar">
+                        <span class="time">12:30</span>
+                        <div class="status-icons">
+                            <i class="fas fa-signal"></i>
+                            <i class="fas fa-wifi"></i>
+                            <i class="fas fa-battery-full"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="home-screen">
+                        <div class="app-grid" id="appGrid">
+                            <!-- Apps will be added here by JavaScript -->
+                        </div>
+                        <div class="dock">
+                          
+                        </div>
+                    </div>
+                    
+                    <div class="app-window" id="appWindow">
+                        <div class="app-header">
+                            <button class="back-button" id="backButton"><i class="fas fa-arrow-left"></i></button>
+                            <h2 class="app-title" id="appTitle">App</h2>
+                        </div>
+                        <div class="app-content" id="appContent">
+                            <!-- App content will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="home-button" id="homeButton"></div>
+            </div>
+        </div>
+      
+    </div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>

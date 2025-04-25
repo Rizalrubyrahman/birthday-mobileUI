@@ -159,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.home-screen').style.display = 'none';
     }
      // Modify the openApp function to check for lock
-     
  
     // Get app content based on app type
     function getAppContent(appType) {
@@ -168,19 +167,11 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'message':
                 return `
                     <div class="messages-app">
-                        <div class="conversation">
-                            <div class="message received">
-                                <p>Hey, how are you?</p>
-                                <span class="time">10:30 AM</span>
-                            </div>
-                            <div class="message sent">
-                                <p>I'm good, thanks! How about you?</p>
-                                <span class="time">10:32 AM</span>
-                            </div>
+                        <div class="conversation" id="messageContainer">
+                            <!-- Messages will appear here -->
                         </div>
                         <div class="message-input">
-                            <input type="text" placeholder="Type a message">
-                            <button><i class="fas fa-paper-plane"></i></button>
+                            
                         </div>
                     </div>
                 `;
@@ -225,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                        
                                     </div>
                                 </div>
-                                <div class="message">Tekan & tahan lilin untuk meniupnya!</div>
+                                <div class="message-cake">Tekan & tahan lilin untuk meniupnya!</div>
                             <div class="cake-menu" id="cakeMenu" style="display:none;">
                                 
                             </div>
@@ -236,13 +227,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 return `
                     <div class="photos-app">
                         <div class="photo-grid">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_7MtgoaZrlx5arqRRDHUEyOICAfwQ2vGyorEKWTiOrdKTL__BUMOb_wlz5gRxvQ4veRA" alt="Photo">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_7MtgoaZrlx5arqRRDHUEyOICAfwQ2vGyorEKWTiOrdKTL__BUMOb_wlz5gRxvQ4veRA" alt="Photo">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_7MtgoaZrlx5arqRRDHUEyOICAfwQ2vGyorEKWTiOrdKTL__BUMOb_wlz5gRxvQ4veRA" alt="Photo">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_7MtgoaZrlx5arqRRDHUEyOICAfwQ2vGyorEKWTiOrdKTL__BUMOb_wlz5gRxvQ4veRA" alt="Photo">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_7MtgoaZrlx5arqRRDHUEyOICAfwQ2vGyorEKWTiOrdKTL__BUMOb_wlz5gRxvQ4veRA" alt="Photo">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_7MtgoaZrlx5arqRRDHUEyOICAfwQ2vGyorEKWTiOrdKTL__BUMOb_wlz5gRxvQ4veRA" alt="Photo">
+                        <div class="gallery-menu" id="galleryMenu" style="display:none;">
+                            <div class="printer">
+                                <div class="printer-top"></div>
+                                <div class="paper-output">
+                                    <!-- Photos will appear here -->
+                                    <div id="galleryContainer"></div>
+                                </div>
+                            </div>
+                           
                         </div>
+                        
+                        </div>
+                        
                     </div>
                 `;
             
@@ -295,12 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    
-    
  
-    
- 
-
  
  // Initialize the phone
  function initPhone() {
@@ -374,8 +366,6 @@ document.addEventListener('DOMContentLoaded', function() {
             firstCard = this;
             return;
         }
-        
-        // Second click
         secondCard = this;
         moveCount++;
         document.getElementById('gameMoves').textContent = moveCount;
@@ -384,7 +374,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkForMatch() {
         const isMatch = firstCard.dataset.emoji === secondCard.dataset.emoji;
-        
         if (isMatch) {
             disableCards();
             checkGameEnd();
@@ -392,19 +381,15 @@ document.addEventListener('DOMContentLoaded', function() {
             unflipCards();
         }
     }
-
     function disableCards() {
         firstCard.removeEventListener('click', flipCard);
         secondCard.removeEventListener('click', flipCard);
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
-        
         resetBoard();
     }
-
     function unflipCards() {
         lockBoard = true;
-        
         setTimeout(() => {
             firstCard.classList.remove('flipped');
             secondCard.classList.remove('flipped');
@@ -438,7 +423,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 500);
         }
     }
-
     // Add event listener for the restart button
     document.addEventListener('click', function(e) {
         if (e.target && e.target.id === 'restartGame') {
@@ -607,6 +591,29 @@ document.addEventListener('DOMContentLoaded', function() {
                showCakeMenu()
             }, 0);
         }
+        if (app.app === 'gallery') {
+            setTimeout(() => {
+                showGalleryMenu();
+            }, 0);
+        }
+        if (app.app === 'message') {
+            setTimeout(() => {
+                 
+                    const messages = [
+                        "Halo!",
+                        "Ini adalah demo pesan otomatis",
+                        "Pesan akan diketik karakter per karakter",
+                        "Lalu otomatis terkirim",
+                        "Lalu otomatis terkirim",
+                        "Lalu otomatis terkirim",
+                        "Lalu otomatis terkirim",
+                        "Seperti sedang mengetik sungguhan!"
+                    ];
+                    showTypingMessage(document.getElementById('messageContainer'), messages);
+                    this.disabled = true;
+                 
+            }, 0);
+        }
      };
     backButton.addEventListener('click', function() {
           // Save current playback position
@@ -720,13 +727,11 @@ document.addEventListener('DOMContentLoaded', function() {
             addCandleInteraction(candle, flame);
         }
     }
-
     function addCandleInteraction(candle, flame) {
         let pressTimer;
         const smoke = document.createElement('div');
         smoke.className = 'smoke';
         candle.appendChild(smoke);
-        
         // For touch devices
         candle.addEventListener('touchstart', function(e) {
             e.preventDefault();
@@ -734,12 +739,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 blowOutCandle(flame, smoke);
             }, 1000); // 1 second press to blow out
         });
-        
         candle.addEventListener('touchend', function(e) {
             e.preventDefault();
             clearTimeout(pressTimer);
         });
-        
         // For mouse devices
         candle.addEventListener('mousedown', function() {
             pressTimer = setTimeout(() => {
@@ -758,7 +761,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function blowOutCandle(flame, smoke) {
         flame.classList.add('blow-animation');
-        
         // Add smoke effect
         setTimeout(() => {
             smoke.style.opacity = '0.8';
@@ -798,10 +800,8 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         cakeMenu.appendChild(celebration);
-      
         // Add confetti
         createConfetti('.confetti-container');
-        
         // Handle wish submission
         // Update the submit button event handler
         document.getElementById('submitWish').addEventListener('click', function() {
@@ -911,8 +911,87 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-
- 
+    function showGalleryMenu() {
+        const galleryMenu = document.getElementById('galleryMenu');
+        galleryMenu.style.display = 'flex';
+        
+        // Add event listener for print button
+         printPhotos();
+    }
+    
+    function printPhotos() {
+        const paperOutput = document.querySelector('.paper-output');
+        paperOutput.innerHTML = '';
+        
+        // Sample photos - replace with your images
+        const photos = [
+            { src: 'https://res.cloudinary.com/dk0z4ums3/image/upload/v1661753019/attached_image/inilah-cara-merawat-anak-kucing-yang-tepat-0-alodokter.jpg', date: '01-01-2023' },
+            { src: 'https://st4.depositphotos.com/16122460/39505/i/450/depositphotos_395057118-stock-photo-cute-tabby-kitten-yellow-background.jpg', date: '02-01-2023' },
+            { src: 'https://pixnio.com/free-images/2017/09/26/2017-09-26-07-35-35-658x825.jpg', date: '03-01-2023' }
+        ];
+        
+        photos.forEach((photo, index) => {
+            setTimeout(() => {
+                const photoPrint = document.createElement('div');
+                photoPrint.className = 'photo-print';
+                photoPrint.style.animationDelay = `${index * 1.5}s`;
+                
+                photoPrint.innerHTML = `
+                    <img src="${photo.src}" alt="Gallery Photo">
+                    <div class="photo-info">
+                        <span>${photo.date}</span>
+                    </div>
+                `;
+                
+                paperOutput.appendChild(photoPrint);
+            }, index * 1500); // Staggered printing
+        });
+    }
+    function showTypingMessage(container, messages) {
+        let messageIndex = 0;
+        
+        function typeNextMessage() {
+            if (messageIndex >= messages.length) return;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message typing';
+            container.appendChild(messageDiv);
+            
+            const text = messages[messageIndex];
+            let charIndex = 0;
+            const typingSpeed = 30 + Math.random() * 20; // Vary typing speed
+            
+            function typeCharacter() {
+                if (charIndex < text.length) {
+                    messageDiv.textContent = text.substring(0, charIndex + 1);
+                    charIndex++;
+                    setTimeout(typeCharacter, typingSpeed);
+                } else {
+                    // Finish typing
+                    messageDiv.classList.remove('typing');
+                    messageDiv.classList.add('sent');
+                    
+                    // Add sent time
+                    const now = new Date();
+                    const timeSpan = document.createElement('span');
+                    timeSpan.className = 'time';
+                    timeSpan.textContent = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                    messageDiv.appendChild(timeSpan);
+                    
+                    // Scroll to bottom
+                    container.scrollTop = container.scrollHeight;
+                    
+                    // Move to next message
+                    messageIndex++;
+                    setTimeout(typeNextMessage, 1000);
+                }
+            }
+            
+            typeCharacter();
+        }
+        
+        typeNextMessage();
+    }
 // Add this  to your openApp function
 
     initPhone()

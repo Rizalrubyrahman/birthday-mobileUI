@@ -211,13 +211,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             case 'cake':
                 return `
-                    <div class="camera-app">
-                        <div class="camera-viewfinder">
-                            <div class="camera-controls">
-                                <button class="shutter-button"></button>
+                    
+                        <div class="cake-app">
+                             
+                            <button id="showCakeBtn" style="display:none;">Tampilkan Kue</button>
+                            <div id="cakeContainer" style="display:none;"></div>
+                            <div class="cake-container">
+                                    <div class="cake">
+                                        <span   id="angka2">2</span> <span  id="angka5">5</span>
+                                        <img src="images/cake.jpg" style="width:250px;height:170px" alt="">
+                                    </div>
+                                    <div class="candles">
+                                       
+                                    </div>
+                                </div>
+                                <div class="message">Tekan & tahan lilin untuk meniupnya!</div>
+                            <div class="cake-menu" id="cakeMenu" style="display:none;">
+                                
                             </div>
                         </div>
-                    </div>
+                     
                 `;
             case 'gallery':
                 return `
@@ -328,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (timerInterval) clearInterval(timerInterval);
         
         // Create card pairs (8 pairs for 16 cards)
-        const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
+        const emojis = ['🥝', '🍊', '🍉', '🍒', '🍏', '🍌', '🍇', '🥥'];
         const cards = [...emojis, ...emojis];
         
         // Shuffle cards
@@ -589,6 +602,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 updatePlayButton();
             }, 0);
         }
+        if (app.app === 'cake') {
+            setTimeout(() => {
+               showCakeMenu()
+            }, 0);
+        }
      };
     backButton.addEventListener('click', function() {
           // Save current playback position
@@ -678,6 +696,225 @@ document.addEventListener('DOMContentLoaded', function() {
     
         document.body.appendChild(celebration);
     }
+
+    // Add to your JavaScript
+    function showCakeMenu() {
+        const cakeMenu = document.getElementById('cakeMenu');
+        cakeMenu.style.display = 'flex';
+        
+        const candlesContainer = document.querySelector('.candles');
+        candlesContainer.innerHTML = '';
+        
+        // Create 5 candles
+        for (let i = 0; i < 2; i++) {
+            const candle = document.createElement('div');
+            candle.className = 'candle';
+            
+            const flame = document.createElement('div');
+            flame.className = 'flame';
+            
+            candle.appendChild(flame);
+            candlesContainer.appendChild(candle);
+            
+            // Add touch/long press event
+            addCandleInteraction(candle, flame);
+        }
+    }
+
+    function addCandleInteraction(candle, flame) {
+        let pressTimer;
+        const smoke = document.createElement('div');
+        smoke.className = 'smoke';
+        candle.appendChild(smoke);
+        
+        // For touch devices
+        candle.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            pressTimer = setTimeout(() => {
+                blowOutCandle(flame, smoke);
+            }, 1000); // 1 second press to blow out
+        });
+        
+        candle.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            clearTimeout(pressTimer);
+        });
+        
+        // For mouse devices
+        candle.addEventListener('mousedown', function() {
+            pressTimer = setTimeout(() => {
+                blowOutCandle(flame, smoke);
+            }, 1000);
+        });
+        
+        candle.addEventListener('mouseup', function() {
+            clearTimeout(pressTimer);
+        });
+        
+        candle.addEventListener('mouseleave', function() {
+            clearTimeout(pressTimer);
+        });
+    }
+
+    function blowOutCandle(flame, smoke) {
+        flame.classList.add('blow-animation');
+        
+        // Add smoke effect
+        setTimeout(() => {
+            smoke.style.opacity = '0.8';
+            smoke.style.transition = 'all 2s ease-out';
+            smoke.style.transform = 'translateX(-50%) translateY(-30px) scale(2)';
+            smoke.style.opacity = '0';
+        }, 300);
+        
+        // Remove flame after animation
+        setTimeout(() => {
+            flame.remove();
+            checkAllCandles();
+        }, 800);
+    }
+
+    function checkAllCandles() {
+        const flames = document.querySelectorAll('.flame');
+        if (flames.length === 0) {
+            setTimeout(showWishAnimation, 1000);
+        }
+    }
+
+    function showWishAnimation() {
+        const cakeMenu = document.getElementById('cakeMenu');
+        cakeMenu.style.position = 'absolute';
+        cakeMenu.style.zIndex = '1000';
+        
+        // Create celebration elements
+        const celebration = document.createElement('div');
+        celebration.className = 'wish-celebration';
+        
+        celebration.innerHTML = `
+            <div class="confetti-container"></div>
+            <div class="wish-message">Sekarang, ucapkan harapanmu!</div>
+            <textarea id="wishInput" placeholder="Tulis harapanmu di sini..."></textarea>
+            <button id="submitWish">Kirim Harapan</button>
+        `;
+        
+        cakeMenu.appendChild(celebration);
+      
+        // Add confetti
+        createConfetti('.confetti-container');
+        
+        // Handle wish submission
+        // Update the submit button event handler
+        document.getElementById('submitWish').addEventListener('click', function() {
+            const wish = document.getElementById('wishInput').value.trim();
+            if (wish !== '') {
+                showWishConfirmation(wish);
+            } else {
+                showWishError();
+            }
+        });
+    }
+    function showWishConfirmation(wish) {
+        const celebration = document.querySelector('.wish-celebration');
+        celebration.innerHTML = `
+            <div class="wish-confetti-container"></div>
+            <div class="wish-complete-animation">
+                
+                <div class="wish-content">
+                    <div class="wish-title">Harapanmu telah dikirim!</div>
+                    <div class="wish-text">"${wish}"</div>
+                    <div class="wish-blessing">Semoga terkabul!</div>
+                </div>
+                
+            </div>
+            <button id="closeWish" class="wish-close-btn">Tutup</button>
+        `;
+        
+        createFloatingConfetti('.wish-confetti-container');
+        
+        // Add closing handler
+        document.getElementById('closeWish').addEventListener('click', function() {
+            const cakeMenu = document.getElementById('cakeMenu');
+            cakeMenu.style.display = 'none';
+        });
+    }
+    
+    // New function for empty wish error
+    function showWishError() {
+        const wishInput = document.getElementById('wishInput');
+        wishInput.placeholder = "Tulis harapanmu terlebih dahulu...";
+        wishInput.style.animation = "shake 0.5s";
+        setTimeout(() => {
+            wishInput.style.animation = "";
+        }, 500);
+    }
+    
+    // New confetti generator for wish confirmation
+    function createFloatingConfetti(container) {
+        const colors = ['#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#f44336', 
+                       '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3'];
+        
+        const containerEl = document.querySelector(container);
+        
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'floating-confetti';
+            
+            // Random properties
+            const size = Math.random() * 15 + 5;
+            const shape = Math.random() > 0.5 ? '50%' : '0';
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const left = Math.random() * 100;
+            const animationDuration = Math.random() * 6 + 4;
+            const delay = Math.random() * 3;
+            
+            // Apply styles
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${size}px`;
+            confetti.style.borderRadius = shape;
+            confetti.style.backgroundColor = color;
+            confetti.style.left = `${left}%`;
+            confetti.style.animationDuration = `${animationDuration}s`;
+            confetti.style.animationDelay = `${delay}s`;
+            
+            containerEl.appendChild(confetti);
+        }
+    }
+    function createConfetti(container) {
+        const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', 
+                    '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50',
+                    '#8BC34A', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+        
+        const confettiContainer = document.querySelector(container);
+        
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'wish-confetti';
+            
+            // Random properties
+            const size = Math.random() * 10 + 5;
+            const shape = Math.random() > 0.5 ? '50%' : '0';
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const left = Math.random() * 100;
+            const animationDuration = Math.random() * 3 + 2;
+            const delay = Math.random() * 2;
+            
+            // Apply styles
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${size}px`;
+            confetti.style.borderRadius = shape;
+            confetti.style.backgroundColor = color;
+            confetti.style.left = `${left}%`;
+            confetti.style.animationDuration = `${animationDuration}s`;
+            confetti.style.animationDelay = `${delay}s`;
+            
+            confettiContainer.appendChild(confetti);
+        }
+    }
+
+
+ 
+// Add this  to your openApp function
+
     initPhone()
     
 });

@@ -290,29 +290,29 @@ body {
 
 .conversation {
     flex: 1;
-    padding: 15px;
+   
     overflow-y: auto;
 }
 
 .message {
-    max-width: 70%;
+    max-width: 80%;
     padding: 10px 15px;
     margin-bottom: 10px;
     border-radius: 18px;
     position: relative;
 }
-
+.message-cake {
+   margin: auto;
+   text-align: center;
+   margin-top: 130px;
+    position: relative;
+}
 .message.received {
     background-color: #f0f0f0;
     align-self: flex-start;
 }
 
-.message.sent {
-    background-color: #007aff;
-    color: white;
-    align-self: flex-end;
-}
-
+ 
 .message .time {
     font-size: 10px;
     opacity: 0.7;
@@ -814,13 +814,7 @@ body {
     opacity: 0;
 }
 
-.message {
-    font-size: 1rem;
-   
-    margin: auto;
-    margin-top: 130px;
-    text-align: center;
-}
+ 
 #angka2 {
     font-size: 80px;
     position: absolute;
@@ -1036,4 +1030,96 @@ body {
     height: 100%;
     overflow: hidden;
     z-index: -1;
+}
+/* Add to your CSS */
+ 
+.photo-print {
+    width: 100%;
+    margin: 10px auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform-origin: top center;
+    animation: printAnimation 1.5s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes printAnimation {
+    0% {
+        transform: scaleY(0) translateY(-50px);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: scaleY(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.photo-print img {
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid #eee;
+}
+
+.photo-info {
+    padding: 10px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.gallery-controls {
+    margin-top: 20px;
+}
+
+#printPhotos {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#printPhotos:hover {
+    background-color: #45a049;
+}
+.message.typing {
+    position: relative;
+    background-color: #e5e5ea;
+    color: #000;
+    border-radius: 18px;
+    padding: 10px 15px;
+    max-width: 80%;
+    margin-bottom: 10px;
+    align-self: flex-start;
+}
+
+.message.typing::after {
+    content: '...';
+    position: absolute;
+    right: -20px;
+    bottom: 10px;
+    animation: typingDots 1.5s infinite;
+}
+
+@keyframes typingDots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+.message.sent {
+ 
+    background-color: #007aff;
+    color: white;
+    
+    animation: messageAppear 0.3s ease-out;
+}
+
+@keyframes messageAppear {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
